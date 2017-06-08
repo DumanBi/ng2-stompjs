@@ -6,8 +6,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { StompConfig } from './stomp.config';
 
 import * as Stomp from '@stomp/stompjs';
-import { StompSubscription } from '@stomp/stompjs';
+import {StompSubscription} from '@stomp/stompjs';
 import {StompHeaders} from './stomp-headers';
+import {Subject} from 'rxjs/Subject';
 
 /**
  * Possible states for the STOMP service
@@ -46,6 +47,11 @@ export class StompService {
    * StompState.CONNECTED
    */
   public connectObservable: Observable<StompState>;
+
+  /**
+   * Will emit all messages to the default queue (any message that are not handled by a subscription)
+   */
+  public defaultMessagesObservable: Subject<Stomp.Message>;
 
   /**
    * Internal array to hold locallly queued messages when STOMP broker is not connected.
@@ -104,6 +110,9 @@ export class StompService {
     }
     // Set function to debug print messages
     this.client.debug = this.debug;
+
+    // Default messages
+    this.setupOnReceive();
   }
 
 
@@ -260,6 +269,17 @@ export class StompService {
     return coldObservable.share();
   }
 
+  /**
+   * Handle messages to default queue, it will include any unhandled messages. We can use this for
+   * RPC type communications.
+   */
+  protected setupOnReceive(): void {
+    this.defaultMessagesObservable = Subject.create();
+
+    this.client.onreceive = (message: Stomp.Message) => {
+      this.defaultMessagesObservable.next(message);
+    };
+  }
 
   /**
    * Callback Functions
