@@ -1,38 +1,29 @@
 /* tslint:disable:no-unused-variable */
 
-import {TestBed, async, inject} from '@angular/core/testing';
 import {StompService, StompState, StompConfig} from '../../../..';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 import {defaultConfig, MyStompService, stompServiceFactory} from './stomp.service.factory';
 import {Message} from '@stomp/stompjs';
+import {ensureStompConnected, ensureStompDisconnected} from './helpers';
 
 describe('StompService', () => {
   let stompService: StompService;
+  const stompConfig = defaultConfig();
 
   // Wait till STOMP Service is actually connected
   beforeEach(() => {
-    stompService = stompServiceFactory(defaultConfig());
+    stompService = stompServiceFactory(stompConfig);
   });
 
   // Disconnect and wait till it actually disconnects
   afterEach((done) => {
-    stompService.state.subscribe((state: StompState) => {
-      if (state === StompState.CLOSED) {
-        stompService = null;
-        done();
-      }
-    });
-
-    stompService.disconnect();
+    ensureStompDisconnected(stompService, done);
+    stompService = null;
   });
 
   describe('Simple operations', () => {
     // Wait till STOMP Service is actually connected
     beforeEach((done) => {
-      stompService.connectObservable.subscribe((state: StompState) => {
-        done();
-      });
+      ensureStompConnected(stompService, done);
     });
 
     it('should already be connected', () => {

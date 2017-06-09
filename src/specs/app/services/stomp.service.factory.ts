@@ -27,7 +27,7 @@ export function defaultConfig(): StompConfig {
     reconnect_delay: 1000,
 
     // Will log diagnostics on console
-    debug: true
+    debug: false
   };
 }
 
