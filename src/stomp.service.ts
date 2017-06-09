@@ -274,7 +274,7 @@ export class StompService {
    * RPC type communications.
    */
   protected setupOnReceive(): void {
-    this.defaultMessagesObservable = Subject.create();
+    this.defaultMessagesObservable = new Subject();
 
     this.client.onreceive = (message: Stomp.Message) => {
       this.defaultMessagesObservable.next(message);
