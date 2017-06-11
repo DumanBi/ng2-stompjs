@@ -117,9 +117,9 @@
     magic-string "^0.19.0"
     source-map "^0.5.6"
 
-"@stomp/stompjs@^3.0.3":
+"@stomp/stompjs@https://github.com/stomp-js/stomp-websocket.git":
   version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-3.0.3.tgz#e92e49e6d7755e6b3199023e45a1ea1dddea4ea3"
+  resolved "https://github.com/stomp-js/stomp-websocket.git#9ff7805cc6d35f16aa54d05da1ce1a0d9ec76c80"
   optionalDependencies:
     websocket latest
 

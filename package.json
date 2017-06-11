@@ -33,7 +33,7 @@
   },
   "main": "./index.ts",
   "dependencies": {
-    "@stomp/stompjs": "^3.0.3",
+    "@stomp/stompjs": "https://github.com/stomp-js/stomp-websocket.git",
     "angular2-uuid": "^1.1.1"
   },
   "devDependencies": {
