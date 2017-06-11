@@ -54,6 +54,11 @@ export class StompService {
   public defaultMessagesObservable: Subject<Stomp.Message>;
 
   /**
+   * Will emit all receipts
+   */
+  public receiptsObservable: Subject<Stomp.Frame>;
+
+  /**
    * Internal array to hold locallly queued messages when STOMP broker is not connected.
    */
   protected queuedMessages: {queueName: string, message: string, headers: StompHeaders}[]= [];
@@ -113,6 +118,9 @@ export class StompService {
 
     // Default messages
     this.setupOnReceive();
+
+    // Receipts
+    this.setupReceipts();
   }
 
 
@@ -279,6 +287,28 @@ export class StompService {
     this.client.onreceive = (message: Stomp.Message) => {
       this.defaultMessagesObservable.next(message);
     };
+  }
+
+  /**
+   * Emit all receipts.
+   */
+  protected setupReceipts(): void {
+    this.receiptsObservable = new Subject();
+
+    this.client.onreceipt = (frame: Stomp.Frame) => {
+      this.receiptsObservable.next(frame);
+    };
+  }
+
+  /**
+   * Wait for receipt, this indicates that server has carried out the related operation
+   */
+  public waitForReceipt(receiptId: string, callback: () => void): void {
+    this.receiptsObservable.filter((frame: Stomp.Frame) => {
+      return frame.headers['receipt-id'] === receiptId;
+    }).first().subscribe((frame: Stomp.Frame) => {
+      callback();
+    });
   }
 
   /**
