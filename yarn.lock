@@ -117,11 +117,11 @@
     magic-string "^0.19.0"
     source-map "^0.5.6"
 
-"@stomp/stompjs@https://github.com/stomp-js/stomp-websocket.git":
-  version "3.0.3"
-  resolved "https://github.com/stomp-js/stomp-websocket.git#9ff7805cc6d35f16aa54d05da1ce1a0d9ec76c80"
+"@stomp/stompjs@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-3.1.1.tgz#a1bf67dd54789887b31e7625384119c930311113"
   optionalDependencies:
-    websocket latest
+    websocket "^1.0.24"
 
 "@types/fs-extra@^3.0.0":
   version "3.0.3"
@@ -5198,7 +5198,7 @@ websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
 
-websocket@latest:
+websocket@^1.0.24:
   version "1.0.24"
   resolved "https://registry.yarnpkg.com/websocket/-/websocket-1.0.24.tgz#74903e75f2545b6b2e1de1425bc1c905917a1890"
   dependencies:
